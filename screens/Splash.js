@@ -1,33 +1,24 @@
-import React, { useEffect, useRef } from 'react';
-import { View, Text, Animated, Image } from 'react-native';
-import { tailwind } from 'tailwindcss-react-native';
+import React, { useEffect } from "react";
+import { Text, Image, View } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import "../global.css";
 
-export default function Splash() {
-  const bounceAnim = useRef(new Animated.Value(0)).current; // initial scale 0
-
+export default function Splash({ navigation }) {
   useEffect(() => {
-    // Bounce animation
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(bounceAnim, { toValue: 1.2, duration: 500, useNativeDriver: true }),
-        Animated.timing(bounceAnim, { toValue: 1, duration: 500, useNativeDriver: true }),
-      ])
-    ).start();
-  }, []);
+    const timer = setTimeout(() => {
+      navigation.replace("Register"); // navigate after 3s
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [navigation]);
 
   return (
-    <View style={tailwind('flex-1 items-center justify-center bg-black')}>
-      <Animated.Image
-        source={require('../assets/finpay-logo.png')} // your logo image here
-        style={{
-          width: 120,
-          height: 120,
-          marginBottom: 20,
-          transform: [{ scale: bounceAnim }],
-        }}
+    <View className="flex-1 items-center justify-center bg-purple-700">
+      <Image
+        source={require("../assets/icon.png")}
+        className="w-60 h-60 mb-4 rounded-full"
+        resizeMode="contain"
       />
-      <Text style={tailwind('text-orange-500 text-5xl font-extrabold mb-3')}>BRUH APP</Text>
-      <Text style={tailwind('text-white text-lg')}>Your secure payment app</Text>
+      <Text className="text-3xl font-bold text-white">FingerPay</Text>
     </View>
   );
 }
